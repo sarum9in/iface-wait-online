@@ -1,0 +1,14 @@
+[Unit]
+Description=Wait for %i to be configured
+DefaultDependencies=no
+Conflicts=shutdown.target
+After=network.service
+Before=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ip-wait-online -- -family inet addr show dev %i
+RemainAfterExit=yes
+
+[Install]
+WantedBy=network-online.target
